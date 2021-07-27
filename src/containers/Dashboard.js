@@ -27,6 +27,7 @@ export const filteredBills = (data, status) => {
 }
 
 export const card = (bill) => {
+  if(!bill.date){return false;}
   const firstAndLastNames = bill.email.split('@')[0]
   const firstName = firstAndLastNames.includes('.') ?
     firstAndLastNames.split('.')[0] : ''

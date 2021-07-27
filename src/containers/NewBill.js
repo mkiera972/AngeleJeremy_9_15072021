@@ -19,6 +19,17 @@ export default class NewBill {
     const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
     const filePath = e.target.value.split(/\\/g)
     const fileName = filePath[filePath.length-1]
+    const extFilename = fileName.split(".").pop().toLowerCase();
+
+    if((extFilename !=='png') && (extFilename !=='jpg') && (extFilename !=='jpeg')){
+      this.document.querySelector(`input[data-testid="file"]`).setAttribute("data-error","Extensions valides : png, jpg, jpeg.");
+      this.document.querySelector(`input[data-testid="file"]`).value = "";
+      return false;
+    }else{
+      if(this.document.querySelector(`input[data-testid="file"]`).getAttribute("data-error")){
+        this.document.querySelector(`input[data-testid="file"]`).removeAttribute("data-error");
+      }
+    }
     this.firestore
       .storage
       .ref(`justificatifs/${fileName}`)
