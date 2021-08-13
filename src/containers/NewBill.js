@@ -1,7 +1,7 @@
 
 import { ROUTES_PATH } from '../constants/routes.js'
 import Logout from "./Logout.js"
-
+//https://github.com/codbear/DouglasMeunier_9_16062021/blob/master/src/__tests__/NewBill.js
 export default class NewBill {
   constructor({ document, onNavigate, firestore, localStorage }) {
     this.document = document
@@ -16,29 +16,30 @@ export default class NewBill {
     new Logout({ document, localStorage, onNavigate })
   }
   handleChangeFile = e => {
+    //console.log(e.target.files);
     const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
-    const filePath = e.target.value.split(/\\/g)
-    const fileName = filePath[filePath.length-1]
-    const extFilename = fileName.split(".").pop().toLowerCase();
+    //console.log(file);
+    const fileName = file.name.replace(/\.[^/.]+$/, "")
+    
+    const extFilename = file.name.split(".").pop().toLowerCase().trim();
 
     if((extFilename !=='png') && (extFilename !=='jpg') && (extFilename !=='jpeg')){
       this.document.querySelector(`input[data-testid="file"]`).setAttribute("data-error","Extensions valides : png, jpg, jpeg.");
       this.document.querySelector(`input[data-testid="file"]`).value = "";
       return false;
     }else{
-      if(this.document.querySelector(`input[data-testid="file"]`).getAttribute("data-error")){
         this.document.querySelector(`input[data-testid="file"]`).removeAttribute("data-error");
-      }
     }
-    this.firestore
-      .storage
-      .ref(`justificatifs/${fileName}`)
-      .put(file)
-      .then(snapshot => snapshot.ref.getDownloadURL())
-      .then(url => {
-        this.fileUrl = url
-        this.fileName = fileName
-      })
+
+    return this.firestore
+    .storage
+    .ref(`justificatifs/${fileName}`)
+    .put(file)
+    .then(snapshot => snapshot.ref.getDownloadURL())
+    .then(url => {
+      this.fileUrl = url
+      this.fileName = fileName
+    })
   }
   handleSubmit = e => {
     e.preventDefault()
@@ -57,6 +58,7 @@ export default class NewBill {
       fileName: this.fileName,
       status: 'pending'
     }
+    //console.log(bill)
     this.createBill(bill)
     this.onNavigate(ROUTES_PATH['Bills'])
   }

@@ -20,7 +20,16 @@ const row = (bill) => {
   }
 
 const rows = (data) => {
-  return (data && data.length) ? data.map(bill => row(bill)).join("") : ""
+  /* tri par ordre decroissant */
+  if((data && data.length)){
+    data.sort(function(a,b){
+      return new Date(b.date) - new Date(a.date);
+    });
+    console.log(data)
+    return data.map(bill => row(bill)).join("")
+  }else{
+    ""
+  }
 }
 
 export default ({ data: bills, loading, error }) => {
@@ -41,7 +50,7 @@ export default ({ data: bills, loading, error }) => {
       </div>
     </div>
   `)
-  console.log(loading)
+
   if (loading) {
     return LoadingPage()
   } else if (error) {

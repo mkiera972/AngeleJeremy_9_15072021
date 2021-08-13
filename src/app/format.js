@@ -17,3 +17,8 @@ export const formatStatus = (status) => {
       return "Refused"
   }
 }
+export const checkDateFormat = (str) => {
+  const globalRegex = new RegExp(/(\d{4})-(\d{2})-(\d{2})/, 'g');
+  let lb_res = globalRegex.test(str);
+  return lb_res;
+}

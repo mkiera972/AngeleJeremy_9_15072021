@@ -61,7 +61,7 @@ describe('Given I am connected as an Admin', () => {
       const html = DashboardUI({ data: bills })
    
       document.body.innerHTML = html
-
+      $.fn.modal = jest.fn();
       const handleShowTickets1 = jest.fn((e) => dashboard.handleShowTickets(e, bills, 1)) 
       const handleShowTickets2 = jest.fn((e) => dashboard.handleShowTickets(e, bills, 2))    
       const handleShowTickets3 = jest.fn((e) => dashboard.handleShowTickets(e, bills, 3))    

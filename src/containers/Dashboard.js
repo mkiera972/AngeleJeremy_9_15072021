@@ -1,4 +1,4 @@
-import { formatDate } from '../app/format.js'
+import { formatDate, checkDateFormat } from '../app/format.js'
 import DashboardFormUI from '../views/DashboardFormUI.js'
 import BigBilledIcon from '../assets/svg/big_billed.js'
 import { ROUTES_PATH } from '../constants/routes.js'
@@ -27,7 +27,6 @@ export const filteredBills = (data, status) => {
 }
 
 export const card = (bill) => {
-  if(!bill.date){return false;}
   const firstAndLastNames = bill.email.split('@')[0]
   const firstName = firstAndLastNames.includes('.') ?
     firstAndLastNames.split('.')[0] : ''
@@ -82,8 +81,7 @@ export default class {
   handleClickIconEye = () => {
     const billUrl = $('#icon-eye-d').attr("data-bill-url")
     const imgWidth = Math.floor($('#modaleFileAdmin1').width() * 0.8)
-    $('#modaleFileAdmin1').find(".modal-body").html(`<div style='text-align: center;'><img width=${imgWidth} src=${billUrl} /></div>`)
-    if (typeof $('#modaleFileAdmin1').modal === 'function') $('#modaleFileAdmin1').modal('show')
+    $('#modaleFileAdmin1').modal('show')
   }
 
   handleEditTicket(e, bill, bills) {
@@ -147,6 +145,7 @@ export default class {
     }
 
     bills.forEach(bill => {
+      console.log(bill)
       $(`#open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills))
     })
 
@@ -162,12 +161,18 @@ export default class {
       .get()
       .then(snapshot => {
         const bills = snapshot.docs
-        .map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-          date: doc.data().date,
-          status: doc.data().status
-        }))
+        .map(doc => {
+          if(checkDateFormat(doc.data().date)){
+            return {
+              id: doc.id,
+              ...doc.data(),
+              date: doc.data().date,
+              status: doc.data().status
+            }
+          }else{
+            return {}
+          }  
+        })
         return bills
       })
       .catch(console.log)

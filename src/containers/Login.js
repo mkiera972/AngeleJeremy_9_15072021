@@ -24,7 +24,7 @@ export default class Login {
     }
     this.localStorage.setItem("user", JSON.stringify(user))
     const userExists = this.checkIfUserExists(user)
-    if (!userExists) this.createUser(user)
+    if (!userExists)this.createUser(user)
     e.preventDefault()
     this.onNavigate(ROUTES_PATH['Bills'])
     this.PREVIOUS_LOCATION = ROUTES_PATH['Bills']
@@ -41,7 +41,8 @@ export default class Login {
     }
     this.localStorage.setItem("user", JSON.stringify(user))
     const userExists = this.checkIfUserExists(user)
-    if (!userExists) this.createUser(user)
+    console.log('userExists',userExists)
+    if (!userExists)this.createUser(user)
     e.preventDefault()
     this.onNavigate(ROUTES_PATH['Dashboard'])
     this.PREVIOUS_LOCATION = ROUTES_PATH['Dashboard']

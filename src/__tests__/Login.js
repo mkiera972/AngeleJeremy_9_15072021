@@ -87,7 +87,7 @@ describe("Given that I am a user on login page", () => {
       PREVIOUS_LOCATION,
       firebase
     })
-
+    
     const handleSubmit = jest.fn(login.handleSubmitEmployee)    
     form.addEventListener("submit", handleSubmit)
     fireEvent.submit(form)
