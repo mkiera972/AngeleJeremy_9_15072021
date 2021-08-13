@@ -100,8 +100,10 @@ describe("Given I am connected as an employee", () => {
       }
 
       const classBillsboard = new billsboard({
-        document, onNavigate, firestore: null, bills, localStorage: window.localStorage
+        document, onNavigate, firestore: firestore, bills, localStorage: window.localStorage
       }) 
+
+      const getBills = jest.fn(classBillsboard.getBills());
 
       $.fn.modal = jest.fn();
 
@@ -137,46 +139,6 @@ describe("Given I am connected as an employee", () => {
       userEvent.click(buttonNewBill)
       expect(handleClickNewBill).toHaveBeenCalled();
       expect(screen.getAllByText('Envoyer une note de frais')).toBeTruthy()
-      
-  
-    })
-  })
-
-
-  describe('test', () => {
-    test('Then, New bill page should be rendered', () => {
-      const html = BillsUI({ data: bills })
-  
-      document.body.innerHTML = html;
-
-        
-      const snapshot = {
-        docs: billsData
-      }
-      class Bills {
-        bills = jest.fn()
-        async get() { return snapshot }
-      }
-  
-      const onNavigate = (pathname) => {
-        document.body.innerHTML = ROUTES({ pathname })
-      }
-  
-      const classBillsboard = new billsboard({
-        document, onNavigate, firestore: firestore, localStorage: window.localStorage
-      }) 
-      const getBills = jest.fn(classBillsboard.getBills());
-
-      /*const getBills = jest.fn(async () => {
-        let test = await classBillsboard.getBills()
-        console.log(test)
-        //expect(newBillContainer.fileUrl).toBe(snapshot.ref.getDownloadURL())
-        //expect(newBillContainer.fileName).toBe(file.name)
-        done()
-      })*/
-      //console.log(getBills)
-      //getBills();
-      //expect(getBills).toHaveBeenCalled();
       
   
     })
