@@ -36,8 +36,6 @@ export default class {
   getBills = () => {
     const userEmail = localStorage.getItem('user') ?
       JSON.parse(localStorage.getItem('user')).email : ""
-      //console.log('userEmail',JSON.parse(localStorage.getItem('user')).email)
-      //console.log(this.firestore.bills)
     if (this.firestore) {
       return this.firestore
       .bills()

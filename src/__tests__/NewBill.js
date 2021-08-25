@@ -149,7 +149,7 @@ describe("Given I am connected as an employee", () => {
             }
             const getSpy = jest.spyOn(firebase, "post")
             const bills = await firebase.post(newBill)
-            //console.log(bills)
+            
             expect(getSpy).toHaveBeenCalledTimes(1)
             expect(bills.data.length).toBe(1)
         })
